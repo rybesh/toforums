@@ -1,4 +1,5 @@
-#! ./bin/python
+#! /bin/sh
+"exec" "`dirname $0`/bin/python" "$0" "$@"
 
 from __future__ import print_function
 import httplib2
@@ -93,8 +94,10 @@ def main():
     gmail = Gmail()
     messages = gmail.list_messages()
 
-    criteria = [map(string.strip, line.split(':'))
-                for line in open('toforums.txt').readlines()]
+    with open(os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), 'toforums.txt')) as f:
+        criteria = [map(string.strip, line.split(':'))
+                    for line in f.readlines()]
 
     for message in messages:
         for header in gmail.get_headers(message['id']):
