@@ -83,7 +83,8 @@ class Gmail:
 
 
 def match(header, name, value):
-    if header['name'] == name and value in header['value']:
+    if (header['name'].lower() == name.lower() and 
+        value.lower() in header['value'].lower()):
         return True
     if (name == 'To'):
         return match(header, 'Cc', value)
