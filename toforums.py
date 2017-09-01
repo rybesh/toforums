@@ -91,12 +91,10 @@ def match(header, name, value):
     return False
 
 
-def main():
-    gmail = Gmail()
-    messages = gmail.list_messages()
-
+def process(gmail, messages, category):
     with open(os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), 'toforums.txt')) as f:
+            os.path.dirname(
+                os.path.realpath(__file__)), 'to%s.txt' % category)) as f:
         criteria = [map(string.strip, line.split(':'))
                     for line in f.readlines()]
 
@@ -104,7 +102,15 @@ def main():
         for header in gmail.get_headers(message['id']):
             for name, value in criteria:
                 if match(header, name, value):
-                    gmail.add_labels(message['id'], ['CATEGORY_FORUMS'])
+                    gmail.add_labels(
+                        message['id'], ['CATEGORY_%s' % category.upper()])
+
+
+def main():
+    gmail = Gmail()
+    messages = gmail.list_messages()
+    for category in ['forums', 'promotions']:
+        process(gmail, messages, category)
 
 
 if __name__ == '__main__':
