@@ -86,7 +86,7 @@ def match(header, name, value):
     if header['name'] == name and value in header['value']:
         return True
     if (name == 'To'):
-        return match(header, 'CC', value)
+        return match(header, 'Cc', value)
     return False
 
 
