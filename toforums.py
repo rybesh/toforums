@@ -109,7 +109,7 @@ def process(gmail, messages, category):
 def main():
     gmail = Gmail()
     messages = gmail.list_messages()
-    for category in ['forums', 'promotions']:
+    for category in ['forums', 'promotions', 'updates']:
         process(gmail, messages, category)
 
 
